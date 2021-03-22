@@ -140,15 +140,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <tbody>
                             <tr>
                                 <?php
-                                $student_detail = "SELECT * FROM `student_reg` WHERE c_id = '$course_id' AND dep_id='$department_id' ";
-                                //                        echo $student_detail;
+                                $student_detail = "SELECT * FROM `student_reg` WHERE s_department = '$department_id' AND s_course='$course_id' ";
                                 if (isset($conn)) {
                                     $result = $conn->query($student_detail);
                                 }
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
-                                        $id = $row['student_id'];
-                                        $name = $row['name'];
+                                        $id = $row['s_id'];
+                                        $name = $row['s_name'];
 
                                         echo '<tr>';
                                         echo '<td>' . date("j-F-Y");
@@ -173,8 +172,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </table>
                         <input type="hidden" value="<?php echo date("j-F-Y"); ?>" name='date'>
                         <input type="hidden" value="<?php echo $id; ?>" name='id[]'>
-<!--                        <input type="hidden" value="--><?php //echo $name; ?><!--" name='std_name'>-->
-                        <button type="submit" class="btn btn-success btn-block" style="width: 30%; margin: 8px;">Submit</button>
+                        <!--                        <input type="hidden" value="-->
+                        <?php //echo $name; ?><!--" name='std_name'>-->
+                        <button type="submit" class="btn btn-success btn-block" style="width: 30%; margin: 8px;">
+                            Submit
+                        </button>
                     </form>
                 </div>
             </div>

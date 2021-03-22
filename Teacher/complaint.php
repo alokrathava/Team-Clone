@@ -132,8 +132,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <select name="student" class="form-control">
                                 <option value="">Select Student</option>
                                 <?php
-                                $student_sql = "SELECT name,student_id FROM `student_reg` WHERE dep_id='$department_id' AND c_id='$course_id' ";
-                                // echo $student_sql;
+                                $student_sql = "SELECT name,student_id FROM `student_reg` WHERE s_department='$department_id' AND s_course='$course_id' ";
+                                 echo $student_sql;
                                 if (isset($conn)) {
                                     $result = $conn->query($student_sql);
                                 }
@@ -166,7 +166,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Teacher</th>
                             <th>Student</th>
                             <th>Complaint</th>
 
@@ -175,17 +174,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </thead>
                         <tbody>
                         <?php
-                        $sql2 = "SELECT teacher_reg.t_name, student_reg.name, complaint.comp_description FROM `complaint` 
-                                 JOIN student_reg ON student_reg.student_id = complaint.id 
-                                 JOIN teacher_reg ON teacher_reg.teacher_id = complaint.t_id";
+                        $sql2 = "SELECT student_reg.s_name, complaint.comp_description FROM `complaint` join student_reg on student_reg.s_id = complaint.st_id WHERE t_id='$teacher_id'";
                         $count = 0;
                         $result2 = mysqli_query($conn, $sql2);
                         while ($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
                             $count++;
                             echo '<tr>';
                             echo '<td>' . $count . '</td>';
-                            echo '<td>' . $row2['t_name'] . '</td>';
-                            echo '<td>' . $row2['name'] . '</td>';
+                            echo '<td>' . $row2['s_name'] . '</td>';
                             echo '<td>' . $row2['comp_description'] . '</td>';
                             echo '</tr>';
                         }

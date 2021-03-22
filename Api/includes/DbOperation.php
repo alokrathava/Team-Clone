@@ -24,6 +24,12 @@ class DbOperation
     * When this method is called a new record is created in the database
     */
 
+
+    public function getConn()
+    {
+        return $this->con;
+    }
+
     /*-----------------------------------------------Student LOGIN---------------------------------------------------*/
     function StudentLogin($email, $pwd)
     {
@@ -178,9 +184,18 @@ class DbOperation
 
     /*===================================================Time Table===================================================*/
     public
-    function getTimeTabedata($day, $department, $coourse)
+    function getTimeTabedata($day, $department, $course)
     {
-        $stmt = "SELECT time_table.t_id, deparment.d_name, course.c_name, sem.s_name, subject.sub_name, resource.re_name, resource.description, time_slots.time, time_slots.s_time, time_slots.e_time, teacher_reg.t_name, time_table.day FROM `time_table` JOIN deparment ON deparment.dep_id = time_table.t_id JOIN course ON course.c_id = time_table.c_id JOIN sem ON sem.s_id = time_table.sem_id JOIN subject ON subject.sub_id = time_table.sub_id JOIN resource ON resource.re_id = time_table.res_id JOIN time_slots ON time_slots.slots_id = time_table.time_slot JOIN teacher_reg ON teacher_reg.teacher_id = time_table.tech_id";
+        $stmt = "SELECT time_table.t_id, deparment.d_name, course.c_name, sem.s_name, subject.sub_name, resource.re_name, time_slots.s_time, time_slots.e_time, teacher_reg.t_name FROM `time_table`
+                 JOIN deparment ON deparment.dep_id = '$department' 
+                 JOIN course ON course.c_id = '$course' 
+                 JOIN sem ON sem.s_id = time_table.sem_id 
+                 JOIN subject ON subject.sub_id = time_table.sub_id 
+                 JOIN resource ON resource.re_id = time_table.res_id 
+                 JOIN time_slots ON time_slots.slots_id = time_table.time_slot 
+                 JOIN teacher_reg ON teacher_reg.t_id = time_table.tech_id 
+                 WHERE day='$day'";
+
         $result = $this->con->query($stmt);
 
         $outer = array();
@@ -194,8 +209,6 @@ class DbOperation
             $inner['s_name'] = $obj->s_name;
             $inner['sub_name'] = $obj->sub_name;
             $inner['re_name'] = $obj->re_name;
-            $inner['description'] = $obj->description;
-            $inner['time'] = $obj->time;
             $inner['s_time'] = $obj->s_time;
             $inner['e_time'] = $obj->e_time;
             $inner['t_name'] = $obj->t_name;

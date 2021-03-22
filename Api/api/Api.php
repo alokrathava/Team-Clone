@@ -83,7 +83,6 @@ if (isset($_GET['apicall'])) {
                 $response['message'] = 'Login successfully';
                 $response['student'] = $db->getStudentData($_POST['s_email'], $_POST['s_pwd']);
 
-
             } else {
 
                 $response['error'] = true;
@@ -148,6 +147,17 @@ if (isset($_GET['apicall'])) {
             $response['course'] = $db->getCourseData($_POST['dep_id']);
 
             break;
+        /*----------------------------------------------- Assignment Upload---------------------------------------------------*/
+        case 'setAssignment2':
+
+            isTheseParametersAvailable(array('user_id', 't_id', 'file'));
+            $db = new DbOperation();
+
+            $response['error'] = false;
+            $response['message'] = 'Data Fetched';
+            $response['course'] = $db->getCourseData($_POST['dep_id']);
+
+            break;
         /*----------------------------------------------- Semester Data---------------------------------------------------*/
         case 'sem':
             isTheseParametersAvailable(array('dep_id', 'c_id'));
@@ -158,6 +168,61 @@ if (isset($_GET['apicall'])) {
             $response['semester'] = $db->getSemesterdata($_POST['dep_id'], $_POST['c_id']);
 
             break;
+
+
+        case 'setAssignment':
+
+
+            $host = '../uploads/';
+
+            $upload_path = $host;
+
+            $db = new DbOperation();
+            $conn = $db->getConn();
+
+            isTheseParametersAvailable(array('u_id', 't_id'));
+
+
+            $u_id = $_POST['u_id'];
+            $t_id = $_POST['t_id'];
+
+
+            $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+
+            $fileName = md5(date('d-m-Y H:i:s')) . "." . $ext;
+
+
+            $file_path = $upload_path . $fileName;
+
+            $fz = filesize($_FILES['file']['tmp_name']);
+
+
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $file_path)) {
+
+
+                $sql = "INSERT INTO `assignment`(`t_id`, `s_id`, `f_path`) VALUES ('$t_id','$u_id','$fileName')";
+
+                if ($conn->query($sql)) {
+
+                    $response['error'] = false;
+                    $response['message'] = 'Material add successfully';
+                } else {
+                    $response['error'] = true;
+                    $response['message'] = 'Some error occurred please try again';
+                }
+
+
+                /*------------------------------------------End --------------------------------------*/
+
+
+            } else {
+                $response['msg'] = 'File uploaded not successfully';
+            }
+
+
+            break;
+
+
     }
 
 } else {

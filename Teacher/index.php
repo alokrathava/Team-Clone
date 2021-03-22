@@ -178,6 +178,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             $tid7 = '';
 
                             $sql3 = "SELECT * FROM time_table where tech_id=$teacher_id";
+//                            echo $sql3;
                             $result3 = mysqli_query($conn, $sql3);
                             while ($row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
                                 if ($row2['slots_id'] == $row3['time_slot']) {
@@ -185,37 +186,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     if ($row3['day'] == 'Monday' && $row3['time_slot'] == $row2['slots_id']) {
                                         $a = $row3['sub_id'];
                                         $res_id1 = $row3['res_id'];
-                                        $tid1 = $row3['tech_id'];
+                                        $tid1 = $row3['t_id'];
                                     }
                                     if ($row3['day'] == 'Tuesday' && $row3['time_slot'] == $row2['slots_id']) {
                                         $b = $row3['sub_id'];
                                         $res_id2 = $row3['res_id'];
-                                        $tid2 = $row3['tech_id'];
+                                        $tid2 = $row3['t_id'];
                                     }
                                     if ($row3['day'] == 'Wednesday' && $row3['time_slot'] == $row2['slots_id']) {
                                         $c = $row3['sub_id'];
                                         $res_id3 = $row3['res_id'];
-                                        $tid3 = $row3['tech_id'];
+                                        $tid3 = $row3['t_id'];
                                     }
                                     if ($row3['day'] == 'Thursday' && $row3['time_slot'] == $row2['slots_id']) {
                                         $d = $row3['sub_id'];
                                         $res_id4 = $row3['res_id'];
-                                        $tid4 = $row3['tech_id'];
+                                        $tid4 = $row3['t_id'];
                                     }
                                     if ($row3['day'] == 'Friday' && $row3['time_slot'] == $row2['slots_id']) {
                                         $e = $row3['sub_id'];
                                         $res_id5 = $row3['res_id'];
-                                        $tid5 = $row3['tech_id'];
+                                        $tid5 = $row3['t_id'];
                                     }
                                     if ($row3['day'] == 'Saturday' && $row3['time_slot'] == $row2['slots_id']) {
                                         $f = $row3['sub_id'];
                                         $res_id6 = $row3['res_id'];
-                                        $tid6 = $row3['tech_id'];
+                                        $tid6 = $row3['t_id'];
                                     }
                                     if ($row3['day'] == 'Sunday' && $row3['time_slot'] == $row2['slots_id']) {
                                         $g = $row3['sub_id'];
                                         $res_id7 = $row3['res_id'];
-                                        $tid7 = $row3['tech_id'];
+                                        $tid7 = $row3['t_id'];
                                     }
 
                                 }
@@ -234,7 +235,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     echo $r1['re_name'] . '<br>';
                                 }
 
-                                $q1 = "SELECT * FROM teacher_reg where teacher_id='$tid1'";
+                                $q1 = "SELECT * FROM teacher_reg where t_id='$tid1'";
                                 $res1 = mysqli_query($conn, $q1);
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['t_name'];
@@ -255,7 +256,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     echo $r1['re_name'] . '<br>';
                                 }
 
-                                $q1 = "SELECT * FROM teacher_reg where teacher_id='$tid2'";
+                                $q1 = "SELECT * FROM teacher_reg where t_id='$tid2'";
                                 $res1 = mysqli_query($conn, $q1);
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['t_name'];
@@ -273,7 +274,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     echo $r1['re_name'] . '<br>';
                                 }
 
-                                $q1 = "SELECT * FROM teacher_reg where teacher_id='$tid3'";
+                                $q1 = "SELECT * FROM teacher_reg where t_id='$tid3'";
                                 $res1 = mysqli_query($conn, $q1);
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['t_name'];
@@ -290,7 +291,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['re_name'] . '<br>';
                                 }
-                                $q1 = "SELECT * FROM teacher_reg where teacher_id='$tid4'";
+                                $q1 = "SELECT * FROM teacher_reg where t_id='$tid4'";
                                 $res1 = mysqli_query($conn, $q1);
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['t_name'];
@@ -308,7 +309,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['re_name'] . '</br>';
                                 }
-                                $q1 = "SELECT * FROM teacher_reg where teacher_id='$tid5'";
+                                $q1 = "SELECT * FROM teacher_reg where t_id='$tid5'";
                                 $res1 = mysqli_query($conn, $q1);
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['t_name'];
@@ -326,7 +327,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['re_name'] . '<br>';
                                 }
-                                $q1 = "SELECT * FROM teacher_reg where teacher_id='$tid6'";
+                                $q1 = "SELECT * FROM teacher_reg where t_id='$tid6'";
                                 $res1 = mysqli_query($conn, $q1);
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['t_name'];
@@ -344,7 +345,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['re_name'] . '<br>';
                                 }
-                                $q1 = "SELECT * FROM teacher_reg where teacher_id='$tid7'";
+                                $q1 = "SELECT * FROM teacher_reg where t_id='$tid7'";
                                 $res1 = mysqli_query($conn, $q1);
                                 while ($r1 = mysqli_fetch_array($res1, MYSQLI_ASSOC)) {
                                     echo $r1['t_name'];
