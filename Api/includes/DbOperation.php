@@ -109,7 +109,35 @@ class DbOperation
         return $outer;
     }
 
-    /*-----------------------------------------------Course Data---------------------------------------------------*/
+    /*-----------------------------------------------Give Attendance List---------------------------------------------------*/
+    function giveAttendance($dept_id, $c_id)
+    {
+        $stmt = "SELECT * FROM `student_reg` WHERE s_department='$dept_id' and s_course='$c_id'";
+        $result = $this->con->query($stmt);
+        $outer = array();
+        while ($obj = $result->fetch_object()) {
+            $inner = array();
+            $inner['s_id'] = $obj->s_id;
+            $inner['s_name'] = $obj->s_name;
+            array_push($outer, $inner);
+        }
+        return $outer;
+    }
+
+    /*---------------------------------------------------Set Attendance-----------------------------------------------------*/
+    function setAttendance($t_id, $dept_id, $c_id, $s_id)
+    {
+        $stmt = "INSERT INTO `attendance` (`st_no`, `t_id`, `dept_id`, `c_id`) VALUES ('$s_id','$t_id','$dept_id','$c_id')";
+        $result = $this->con->query($stmt);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*-----------------------------------------------Course Data------------------------------------------------------------*/
     function getCourseData($d_id)
     {
         $stmt = "SELECT * FROM `course` WHERE dep_id ='$d_id'";
@@ -287,8 +315,7 @@ class DbOperation
     }
 
     /*===================================================Events===================================================*/
-    public
-    function event()
+    public function event()
     {
         $stmt = "SELECT * FROM `event`";
         $result = $this->con->query($stmt);

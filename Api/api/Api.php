@@ -196,7 +196,38 @@ if (isset($_GET['apicall'])) {
             $response['semester'] = $db->getSemesterdata($_POST['dep_id'], $_POST['c_id']);
 
             break;
+        /*----------------------------------------------- Attendance List------------------------------------------------*/
+        case 'giveAttendance':
+            isTheseParametersAvailable(array('dep_id', 'c_id',));
+            $db = new DbOperation();
 
+            $response['error'] = false;
+            $response['message'] = false;
+            $response['AttendanceList'] = $db->giveAttendance($_POST['dep_id'], $_POST['c_id']);
+
+            break;
+        /*-----------------------------------------------Set Attendance--------------------------------------------------*/
+        case 'setAttendance':
+
+            isTheseParametersAvailable(array('t_id', 'dept_id', 'c_id', 's_id'));
+            $db = new DbOperation();
+
+            $result = $db->setAttendance($_POST['t_id'], $_POST['dept_id'], $_POST['c_id'], $_POST['s_id']);
+
+            if ($result) {
+
+                $response['error'] = false;
+                $response['message'] = 'Attendance Done';
+
+            } else {
+
+                $response['error'] = true;
+                $response['message'] = 'Something went wrong ';
+
+            }
+
+
+            break;
         /*-----------------------------------------Assignment Upload-----------------------------------------------------*/
 
         case 'setAssignment':
@@ -250,7 +281,6 @@ if (isset($_GET['apicall'])) {
 
 
             break;
-
 
     }
 
