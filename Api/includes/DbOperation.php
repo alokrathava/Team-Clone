@@ -219,6 +219,72 @@ class DbOperation
         return $outer;
     }
 
+    /*===================================================New Assignment===================================================*/
+    public function GiveAssignment($t_id, $na_title, $na_desciption, $dept_id, $c_id)
+    {
+        $stmt = "INSERT INTO `new_assign` (`na_title`, `na_desciption`, `t_id`,`dept_id`, `c_id`) VALUES ('$na_title','$na_desciption','$t_id','$dept_id','$c_id')";
+        $result = $this->con->query($stmt);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*===================================================Check Assignment===================================================*/
+    public function check_assignment($t_id)
+    {
+        $stmt = "SELECT assignment.f_id, assignment.f_path, new_assign.na_title, new_assign.na_desciption, student_reg.s_name, student_reg.s_enroll_no FROM `assignment` 
+                 JOIN new_assign ON new_assign.na_id = assignment.a_id JOIN student_reg ON student_reg.s_id = assignment.s_id 
+                 WHERE assignment.t_id='$t_id'";
+
+        $result = $this->con->query($stmt);
+
+        $outer = array();
+
+        while ($obj = $result->fetch_object()) {
+
+            $inner = array();
+            $inner['f_id'] = $obj->f_id;
+            $inner['f_path'] = $obj->f_path;
+            $inner['na_title'] = $obj->na_title;
+            $inner['na_desciption'] = $obj->na_desciption;
+            $inner['s_name'] = $obj->s_name;
+            $inner['s_enroll_no'] = $obj->s_enroll_no;
+
+            array_push($outer, $inner);
+        }
+
+        return $outer;
+
+    }
+
+    /*==============================================View Assignment By Students=======================================*/
+    public function view_assignment($dept_id, $c_id)
+    {
+        $stmt = "SELECT new_assign.na_id, new_assign.na_title, new_assign.na_desciption, teacher_reg.t_name FROM `new_assign`
+                 JOIN teacher_reg ON teacher_reg.t_id = new_assign.t_id 
+                 WHERE new_assign.dept_id='$dept_id' AND new_assign.c_id='$c_id'";
+
+        $result = $this->con->query($stmt);
+
+        $outer = array();
+
+        while ($obj = $result->fetch_object()) {
+
+            $inner = array();
+            $inner['na_id'] = $obj->na_id;
+            $inner['na_title'] = $obj->na_title;
+            $inner['na_desciption'] = $obj->na_desciption;
+            $inner['t_name'] = $obj->t_name;
+
+            array_push($outer, $inner);
+        }
+
+        return $outer;
+
+    }
 
     /*===================================================Events===================================================*/
     public

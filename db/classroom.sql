@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2021 at 09:47 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.3.22
+-- Generation Time: Mar 27, 2021 at 05:31 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,7 +37,33 @@ CREATE TABLE `admin_login` (
 --
 
 INSERT INTO `admin_login` (`email`, `pass`) VALUES
+('admin', 'admin'),
 ('admin', 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assignment`
+--
+
+CREATE TABLE `assignment` (
+  `f_id` int(5) NOT NULL,
+  `a_id` int(5) NOT NULL,
+  `t_id` int(5) NOT NULL,
+  `s_id` int(5) NOT NULL,
+  `f_path` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `assignment`
+--
+
+INSERT INTO `assignment` (`f_id`, `a_id`, `t_id`, `s_id`, `f_path`) VALUES
+(1, 1, 1, 1, '42ea480ea7e2c61d34d85fe0e3c48809'),
+(2, 1, 1, 1, 'cab54afc799741003aed34f296caecb4png'),
+(3, 1, 1, 1, '466f4731fb8a05367869bdaca075619d.png'),
+(4, 1, 1, 1, '../uploads/'),
+(5, 1, 1, 1, '../uploads/d2974b932a3be5108ad2687015fe080b.png');
 
 -- --------------------------------------------------------
 
@@ -48,7 +74,7 @@ INSERT INTO `admin_login` (`email`, `pass`) VALUES
 CREATE TABLE `attendance` (
   `id` int(5) NOT NULL,
   `st_no` int(5) NOT NULL,
-  `attendance` varchar(10) NOT NULL,
+  `attendance` varchar(10) NOT NULL COMMENT '0-present\r\n1-absent',
   `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -57,7 +83,8 @@ CREATE TABLE `attendance` (
 --
 
 INSERT INTO `attendance` (`id`, `st_no`, `attendance`, `date`) VALUES
-(1, 1, '0', '2021-03-02');
+(1, 1, '0', '2021-03-02'),
+(2, 1, '0', '2021-03-22');
 
 -- --------------------------------------------------------
 
@@ -102,7 +129,7 @@ INSERT INTO `course` (`c_id`, `dep_id`, `c_name`) VALUES
 (4, 2, 'Maths'),
 (5, 2, 'Physics'),
 (6, 2, 'Bio'),
-(7, 3, 'marketing');
+(7, 3, 'CS');
 
 -- --------------------------------------------------------
 
@@ -122,7 +149,7 @@ CREATE TABLE `deparment` (
 INSERT INTO `deparment` (`dep_id`, `d_name`) VALUES
 (1, 'BE'),
 (2, 'MSC'),
-(3, 'MBA');
+(3, 'MCA');
 
 -- --------------------------------------------------------
 
@@ -148,6 +175,28 @@ INSERT INTO `events` (`event_id`, `event_name`, `event_description`, `event_imag
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `new_assign`
+--
+
+CREATE TABLE `new_assign` (
+  `na_id` int(11) NOT NULL,
+  `na_title` varchar(50) NOT NULL,
+  `na_desciption` varchar(255) NOT NULL,
+  `t_id` int(11) NOT NULL,
+  `dept_id` int(5) NOT NULL,
+  `c_id` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `new_assign`
+--
+
+INSERT INTO `new_assign` (`na_id`, `na_title`, `na_desciption`, `t_id`, `dept_id`, `c_id`) VALUES
+(1, 'Hello ', 'World ', 1, 1, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `resource`
 --
 
@@ -163,8 +212,9 @@ CREATE TABLE `resource` (
 
 INSERT INTO `resource` (`re_id`, `re_name`, `description`) VALUES
 (2, 'Lab', 'no '),
-(4, 'Class', 'no'),
-(5, 'Workshop', 'this resource only for engg students.');
+(4, 'Class', '110'),
+(5, 'Workshop', 'this resource only for engg students.'),
+(6, 'Class', '101');
 
 -- --------------------------------------------------------
 
@@ -189,7 +239,10 @@ INSERT INTO `sem` (`s_id`, `dep_id`, `c_id`, `s_name`) VALUES
 (3, 2, 6, 'SEM 1'),
 (4, 2, 6, 'SEM 2'),
 (5, 1, 3, 'SEM 4'),
-(7, 3, 7, 'SEM 1');
+(7, 3, 7, 'SEM 1'),
+(8, 1, 1, 'Sem 1'),
+(9, 3, 7, 'SEM 2'),
+(10, 1, 2, 'Sem 1');
 
 -- --------------------------------------------------------
 
@@ -198,18 +251,18 @@ INSERT INTO `sem` (`s_id`, `dep_id`, `c_id`, `s_name`) VALUES
 --
 
 CREATE TABLE `student_reg` (
-  `student_id` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `enroll_no` varchar(20) NOT NULL,
-  `phone` bigint(20) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `password` varchar(20) NOT NULL,
-  `city` varchar(10) NOT NULL,
-  `state` varchar(10) NOT NULL,
-  `semester` int(10) NOT NULL,
-  `couse` varchar(20) NOT NULL,
-  `branch` varchar(50) NOT NULL,
+  `s_id` int(11) NOT NULL,
+  `s_name` varchar(30) NOT NULL,
+  `s_enroll_no` varchar(20) NOT NULL,
+  `s_phone` bigint(20) NOT NULL,
+  `s_address` varchar(100) NOT NULL,
+  `s_email` varchar(30) NOT NULL,
+  `s_password` varchar(20) NOT NULL,
+  `s_city` varchar(10) NOT NULL,
+  `s_state` varchar(10) NOT NULL,
+  `s_semester` int(10) NOT NULL,
+  `s_department` int(10) NOT NULL,
+  `s_course` int(10) NOT NULL,
   `status` int(5) NOT NULL DEFAULT 0 COMMENT '0 deactive 1 active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -217,9 +270,8 @@ CREATE TABLE `student_reg` (
 -- Dumping data for table `student_reg`
 --
 
-INSERT INTO `student_reg` (`student_id`, `name`, `enroll_no`, `phone`, `address`, `email`, `password`, `city`, `state`, `semester`, `couse`, `branch`, `status`) VALUES
-(1, 'Alok Rathava', '18520452363', 9512334819, '301-sai aprtment', 'alokrathava@gmail.com', 'alokrathava', 'Vadodara', 'Gujarat', 1, 'Computer science', 'BE', 1),
-(2, 'radhika', '15428525262', 120120455620, 'chandod', 'rp@gmail.com', '123', 'Vadodara', 'Gujarat', 2, 'Mechnical', 'Diploma', 0);
+INSERT INTO `student_reg` (`s_id`, `s_name`, `s_enroll_no`, `s_phone`, `s_address`, `s_email`, `s_password`, `s_city`, `s_state`, `s_semester`, `s_department`, `s_course`, `status`) VALUES
+(1, 'Alok Rathava', '9512483438', 1248843, 'vad', 'alokrathava@gmail.com', 'admin', 'vad', 'guj ', 10, 3, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -244,7 +296,8 @@ INSERT INTO `subject` (`sub_id`, `sem_id`, `dep_id`, `c_id`, `sub_name`) VALUES
 (2, 1, 1, 3, 'Mathmatical formula'),
 (3, 3, 2, 6, 'Anatomy'),
 (4, 4, 2, 6, 'Botny'),
-(5, 7, 3, 7, 'Maths');
+(5, 7, 3, 7, 'Maths'),
+(6, 8, 1, 1, 'Marketing');
 
 -- --------------------------------------------------------
 
@@ -253,16 +306,16 @@ INSERT INTO `subject` (`sub_id`, `sem_id`, `dep_id`, `c_id`, `sub_name`) VALUES
 --
 
 CREATE TABLE `teacher_reg` (
-  `teacher_id` int(11) NOT NULL,
+  `t_id` int(11) NOT NULL,
   `t_name` varchar(30) NOT NULL,
-  `phone` bigint(20) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `password` varchar(20) NOT NULL,
-  `city` varchar(20) NOT NULL,
-  `state` varchar(10) NOT NULL,
-  `courses` varchar(50) NOT NULL,
-  `branch` varchar(50) NOT NULL,
+  `t_phone` bigint(20) NOT NULL,
+  `t_address` varchar(100) NOT NULL,
+  `t_email` varchar(30) NOT NULL,
+  `t_password` varchar(20) NOT NULL,
+  `t_city` varchar(20) NOT NULL,
+  `t_state` varchar(10) NOT NULL,
+  `t_department` int(10) NOT NULL,
+  `t_course` int(10) NOT NULL,
   `status` int(5) NOT NULL DEFAULT 0 COMMENT '0 deactive 1 active\r\n'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -270,8 +323,8 @@ CREATE TABLE `teacher_reg` (
 -- Dumping data for table `teacher_reg`
 --
 
-INSERT INTO `teacher_reg` (`teacher_id`, `t_name`, `phone`, `address`, `email`, `password`, `city`, `state`, `courses`, `branch`, `status`) VALUES
-(1, 'JIGAR', 879978987, 'NA                        ', 'ABC@GMAIL.COM', '1', 'vadodara', 'gujarat', 'Compurter science', 'BE', 1);
+INSERT INTO `teacher_reg` (`t_id`, `t_name`, `t_phone`, `t_address`, `t_email`, `t_password`, `t_city`, `t_state`, `t_department`, `t_course`, `status`) VALUES
+(1, 'Wlok', 945439184, 'vad', 'al@gmail.com', 'admin', 'vad', 'guj', 1, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -320,13 +373,18 @@ CREATE TABLE `time_table` (
 --
 
 INSERT INTO `time_table` (`t_id`, `dep_id`, `c_id`, `sem_id`, `sub_id`, `res_id`, `time_slot`, `day`, `tech_id`) VALUES
-(1, 1, 3, 1, 1, 2, '1', 'Monday', 1),
-(2, 1, 3, 1, 2, 4, '2', 'Monday', 1),
-(3, 3, 7, 7, 5, 4, '1', 'Tuesday', 1);
+(1, 3, 7, 7, 5, 2, '2', 'Monday', 1),
+(2, 3, 7, 7, 5, 4, '1', 'Friday', 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `assignment`
+--
+ALTER TABLE `assignment`
+  ADD PRIMARY KEY (`f_id`);
 
 --
 -- Indexes for table `attendance`
@@ -359,6 +417,12 @@ ALTER TABLE `events`
   ADD PRIMARY KEY (`event_id`);
 
 --
+-- Indexes for table `new_assign`
+--
+ALTER TABLE `new_assign`
+  ADD PRIMARY KEY (`na_id`);
+
+--
 -- Indexes for table `resource`
 --
 ALTER TABLE `resource`
@@ -374,7 +438,7 @@ ALTER TABLE `sem`
 -- Indexes for table `student_reg`
 --
 ALTER TABLE `student_reg`
-  ADD PRIMARY KEY (`student_id`);
+  ADD PRIMARY KEY (`s_id`);
 
 --
 -- Indexes for table `subject`
@@ -386,7 +450,7 @@ ALTER TABLE `subject`
 -- Indexes for table `teacher_reg`
 --
 ALTER TABLE `teacher_reg`
-  ADD PRIMARY KEY (`teacher_id`);
+  ADD PRIMARY KEY (`t_id`);
 
 --
 -- Indexes for table `time_slots`
@@ -405,10 +469,16 @@ ALTER TABLE `time_table`
 --
 
 --
+-- AUTO_INCREMENT for table `assignment`
+--
+ALTER TABLE `assignment`
+  MODIFY `f_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `complaint`
@@ -426,7 +496,7 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `deparment`
 --
 ALTER TABLE `deparment`
-  MODIFY `dep_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `dep_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -435,34 +505,40 @@ ALTER TABLE `events`
   MODIFY `event_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `new_assign`
+--
+ALTER TABLE `new_assign`
+  MODIFY `na_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `resource`
 --
 ALTER TABLE `resource`
-  MODIFY `re_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `re_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sem`
 --
 ALTER TABLE `sem`
-  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `student_reg`
 --
 ALTER TABLE `student_reg`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `sub_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `sub_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `teacher_reg`
 --
 ALTER TABLE `teacher_reg`
-  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `t_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `time_slots`
@@ -474,7 +550,7 @@ ALTER TABLE `time_slots`
 -- AUTO_INCREMENT for table `time_table`
 --
 ALTER TABLE `time_table`
-  MODIFY `t_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `t_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
