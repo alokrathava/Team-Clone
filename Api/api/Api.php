@@ -91,7 +91,6 @@ if (isset($_GET['apicall'])) {
             }
             break;
         /*-----------------------------------------------Parent Login---------------------------------------------------*/
-
         case 'teacherlogin':
 
             isTheseParametersAvailable(array('t_email', 't_pwd'));
@@ -147,18 +146,47 @@ if (isset($_GET['apicall'])) {
             $response['course'] = $db->getCourseData($_POST['dep_id']);
 
             break;
-        /*----------------------------------------------- Assignment Upload---------------------------------------------------*/
-        case 'setAssignment2':
+        /*----------------------------------------------- Give Assignment---------------------------------------------------*/
+        case 'giveAssignment':
 
-            isTheseParametersAvailable(array('user_id', 't_id', 'file'));
+            isTheseParametersAvailable(array('t_id', 'na_title', 'na_desciption', 'dept_id', 'c_id'));
+            $db = new DbOperation();
+            $result = $db->GiveAssignment($_POST['t_id'], $_POST['na_title'], $_POST['na_desciption'], $_POST['dept_id'], $_POST['c_id']);
+
+            if ($result) {
+
+                $response['error'] = false;
+                $response['message'] = 'Assignment Send';
+
+            } else {
+
+                $response['error'] = true;
+                $response['message'] = 'Something went wrong ';
+
+            }
+
+            break;
+        /*----------------------------------------------- Check Assignment---------------------------------------------*/
+        case 'check_assignment':
+            isTheseParametersAvailable(array('t_id'));
             $db = new DbOperation();
 
             $response['error'] = false;
-            $response['message'] = 'Data Fetched';
-            $response['course'] = $db->getCourseData($_POST['dep_id']);
+            $response['message'] = "Data Fetch";
+            $response['checkAssign'] = $db->check_assignment($_POST['t_id']);
 
             break;
-        /*----------------------------------------------- Semester Data---------------------------------------------------*/
+        /*-----------------------------------------------View_Assignement_By_Student------------------------------------*/
+        case 'view_assignment':
+            isTheseParametersAvailable(array('dept_id', 'c_id'));
+            $db = new DbOperation();
+
+            $response['error'] = false;
+            $response['message'] = "Data Fetch";
+            $response['viewAssign'] = $db->view_assignment($_POST['dept_id'], $_POST['c_id']);
+
+            break;
+        /*----------------------------------------------- Semester Data------------------------------------------------*/
         case 'sem':
             isTheseParametersAvailable(array('dep_id', 'c_id'));
             $db = new DbOperation();
@@ -169,27 +197,28 @@ if (isset($_GET['apicall'])) {
 
             break;
 
+        /*-----------------------------------------Assignment Upload-----------------------------------------------------*/
 
         case 'setAssignment':
 
-
-            $host = '../uploads/';
+            $host = ' ../uploads / ';
 
             $upload_path = $host;
 
             $db = new DbOperation();
             $conn = $db->getConn();
 
-            isTheseParametersAvailable(array('u_id', 't_id'));
+            isTheseParametersAvailable(array('u_id', 't_id', 'a_id'));
 
 
             $u_id = $_POST['u_id'];
             $t_id = $_POST['t_id'];
+            $a_id = $_POST['a_id'];
 
 
             $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 
-            $fileName = md5(date('d-m-Y H:i:s')) . "." . $ext;
+            $fileName = md5(date('d - m - Y H:i:s')) . "." . $ext;
 
 
             $file_path = $upload_path . $fileName;
@@ -200,7 +229,7 @@ if (isset($_GET['apicall'])) {
             if (move_uploaded_file($_FILES['file']['tmp_name'], $file_path)) {
 
 
-                $sql = "INSERT INTO `assignment`(`t_id`, `s_id`, `f_path`) VALUES ('$t_id','$u_id','$fileName')";
+                $sql = "INSERT INTO `assignment`(`t_id`,`a_id`,`s_id`, `f_path`) VALUES ('$t_id','$a_id','$u_id','$fileName')";
 
                 if ($conn->query($sql)) {
 
