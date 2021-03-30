@@ -213,7 +213,6 @@ if (isset($_GET['apicall'])) {
             $db = new DbOperation();
 
             $result = $db->setAttendance($_POST['t_id'], $_POST['dept_id'], $_POST['c_id'], $_POST['s_id']);
-
             if ($result) {
 
                 $response['error'] = false;
