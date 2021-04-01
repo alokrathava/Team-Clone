@@ -142,9 +142,8 @@ if (isset($_GET['apicall'])) {
             $db = new DbOperation();
 
             $response['error'] = false;
-            $response['message'] = 'Data Fetched';
-            $response['course'] = $db->getCourseData($_POST['dep_id']);
-
+            $response['message'] = "Data Fetch";
+            $response['Course'] = $db->getCourseData($_POST['dep_id']);
             break;
         /*----------------------------------------------- Give Assignment---------------------------------------------------*/
         case 'giveAssignment':
@@ -202,8 +201,19 @@ if (isset($_GET['apicall'])) {
             $db = new DbOperation();
 
             $response['error'] = false;
-            $response['message'] = false;
+            $response['message'] = "Data Fetch";
             $response['AttendanceList'] = $db->giveAttendance($_POST['dep_id'], $_POST['c_id']);
+
+            break;
+        /*--------------------------------------------------watchAttendance-----------------------------------------------*/
+        case 'watchAttendance':
+
+            isTheseParametersAvailable(array('user_id'));
+            $db = new DbOperation();
+
+            $response['error'] = false;
+            $response['message'] = "Data Fetch";
+            $response['StudentAttendance'] = $db->watchAttendance($_POST['user_id']);
 
             break;
         /*-----------------------------------------------Set Attendance--------------------------------------------------*/
@@ -225,6 +235,7 @@ if (isset($_GET['apicall'])) {
 
             }
 
+            /*-----------------------------------------Assignment Upload-----------------------------------------------------*/
 
             break;
         /*-----------------------------------------Assignment Upload-----------------------------------------------------*/

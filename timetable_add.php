@@ -128,12 +128,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <section class="wrapper">
             <section class="panel">
-                        <header class="panel-heading">
-                           Create Time Table
-                        </header>
-                        <div class="panel-body">
-                            <div class="position-center">
-                             <form role="form" method="post" action="timetable_process.php">
+                <header class="panel-heading">
+                    Create Time Table
+                </header>
+                <div class="panel-body">
+                    <div class="position-center">
+                        <form role="form" method="post" action="timetable_process.php">
 
 
                             <?php
@@ -164,7 +164,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         echo '<option value="">Department not available</option>';
                                     }
                                     ?>
-                                </select></div><br>
+                                </select></div>
+                            <br>
 
 
                             <div class="ggg">
@@ -173,7 +174,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <option value="">Select Department first</option>
                                 </select>
                                 <div class="select-dropdown"></div>
-                            </div><br>
+                            </div>
+                            <br>
 
                             <div class="ggg">
                                 <label for="courseid">Semester</label>
@@ -181,7 +183,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <option value="">Select Semester</option>
                                 </select>
                                 <div class="select-dropdown"></div>
-                            </div><br>
+                            </div>
+                            <br>
 
                             <div class="ggg">
                                 <label for="courseid">Subject</label>
@@ -189,7 +192,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <option value="">Select Subject</option>
                                 </select>
                                 <div class="select-dropdown"></div>
-                            </div><br>
+                            </div>
+                            <br>
 
                             <div class="ggg">
                                 <label for="courseid">Resources</label>
@@ -210,7 +214,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         }
                                     }
                                     ?>
-                                </select></div><br>
+                                </select></div>
+                            <br>
 
                             <div class="ggg">
                                 <label for="courseid">Time Slot</label>
@@ -231,7 +236,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         }
                                     }
                                     ?>
-                                </select></div><br>
+                                </select></div>
+                            <br>
 
 
                             <div class="ggg">
@@ -247,7 +253,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <option value="Sunday">Sunday</option>
                                 </select>
                                 <div class="select-dropdown"></div>
-                            </div><br>
+                            </div>
+                            <br>
 
 
                             <div class="ggg">
@@ -263,7 +270,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <?php
                                     if ($count > 0) {
                                         while ($row = mysqli_fetch_array($run_query)) {
-                                            $teacher_id = $row['teacher_id'];
+                                            $teacher_id = $row['t_id'];
                                             $name = $row['t_name'];
                                             echo "<option value='$teacher_id'>$name</option>";
                                         }
@@ -274,13 +281,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="form-group">
                                 <button type="submit" name="submit" class="btn btn-info">Submit</button>
                         </form>
-                            
-                            
-                            </div>
 
-                        </div>
-                    </section>
-        
+
+                    </div>
+
+                </div>
+            </section>
+
         </section>
 
     </section>

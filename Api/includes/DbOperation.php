@@ -137,6 +137,22 @@ class DbOperation
         }
     }
 
+    /*--------------------------------------------------Watch Attendance--------------------------------------------------*/
+    function watchAttendance($user_id)
+    {
+        $stmt = "SELECT * FROM `attendance` WHERE st_no = '$user_id'";
+        $result = $this->con->query($stmt);
+        $outer = array();
+        while ($obj = $result->fetch_object()) {
+            $inner = array();
+            $inner['id'] = $obj->id;
+            $inner['attendance'] = $obj->attendance;
+            $inner['date'] = $obj->date;
+            array_push($outer, $inner);
+        }
+        return $outer;
+    }
+
     /*-----------------------------------------------Course Data------------------------------------------------------------*/
     function getCourseData($d_id)
     {
@@ -263,7 +279,7 @@ class DbOperation
     /*===================================================Check Assignment===================================================*/
     public function check_assignment($t_id)
     {
-        $stmt = "SELECT assignment.f_id, assignment.f_path, new_assign.na_title, new_assign.na_desciption, student_reg.s_name, student_reg.s_enroll_no FROM `assignment` 
+        echo $stmt = "SELECT assignment.f_id, assignment.f_path, new_assign.na_title, new_assign.na_desciption, student_reg.s_name, student_reg.s_enroll_no FROM `assignment` 
                  JOIN new_assign ON new_assign.na_id = assignment.a_id JOIN student_reg ON student_reg.s_id = assignment.s_id 
                  WHERE assignment.t_id='$t_id'";
 
@@ -291,7 +307,7 @@ class DbOperation
     /*==============================================View Assignment By Students=======================================*/
     public function view_assignment($dept_id, $c_id)
     {
-        $stmt = "SELECT new_assign.na_id, new_assign.na_title, new_assign.na_desciption, teacher_reg.t_name FROM `new_assign`
+         $stmt = "SELECT new_assign.na_id, new_assign.t_id, new_assign.na_title, new_assign.na_desciption, teacher_reg.t_name FROM `new_assign`
                  JOIN teacher_reg ON teacher_reg.t_id = new_assign.t_id 
                  WHERE new_assign.dept_id='$dept_id' AND new_assign.c_id='$c_id'";
 
@@ -303,6 +319,7 @@ class DbOperation
 
             $inner = array();
             $inner['na_id'] = $obj->na_id;
+            $inner['t_id'] = $obj->t_id;
             $inner['na_title'] = $obj->na_title;
             $inner['na_desciption'] = $obj->na_desciption;
             $inner['t_name'] = $obj->t_name;
