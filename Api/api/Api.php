@@ -235,63 +235,49 @@ if (isset($_GET['apicall'])) {
 
             }
 
-            /*-----------------------------------------Assignment Upload-----------------------------------------------------*/
-
             break;
-        /*-----------------------------------------Assignment Upload-----------------------------------------------------*/
+        /*-----------------------------------------------Absent Attendance--------------------------------------------------*/
+        case 'absentAttendance':
 
-        case 'setAssignment':
-
-            $host = ' ../uploads / ';
-
-            $upload_path = $host;
-
+            isTheseParametersAvailable(array('t_id', 'dept_id', 'c_id', 's_id'));
             $db = new DbOperation();
-            $conn = $db->getConn();
 
-            isTheseParametersAvailable(array('u_id', 't_id', 'a_id'));
+            $result = $db->absentAttendance($_POST['t_id'], $_POST['dept_id'], $_POST['c_id'], $_POST['s_id']);
+            if ($result) {
 
-
-            $u_id = $_POST['u_id'];
-            $t_id = $_POST['t_id'];
-            $a_id = $_POST['a_id'];
-
-
-            $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-
-            $fileName = md5(date('d - m - Y H:i:s')) . "." . $ext;
-
-
-            $file_path = $upload_path . $fileName;
-
-            $fz = filesize($_FILES['file']['tmp_name']);
-
-
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $file_path)) {
-
-
-                $sql = "INSERT INTO `assignment`(`t_id`,`a_id`,`s_id`, `f_path`) VALUES ('$t_id','$a_id','$u_id','$fileName')";
-
-                if ($conn->query($sql)) {
-
-                    $response['error'] = false;
-                    $response['message'] = 'Material add successfully';
-                } else {
-                    $response['error'] = true;
-                    $response['message'] = 'Some error occurred please try again';
-                }
-
-
-                /*------------------------------------------End --------------------------------------*/
-
+                $response['error'] = false;
+                $response['message'] = 'Attendance Done';
 
             } else {
-                $response['msg'] = 'File uploaded not successfully';
-            }
 
+                $response['error'] = true;
+                $response['message'] = 'Something went wrong ';
+
+            }
 
             break;
 
+
+        /*-----------------------------------------Assignment Upload-----------------------------------------------------*/
+
+        case 'sendAssignment':
+
+            isTheseParametersAvailable(array('pdf', 'a_id', 't_id', 's_id'));
+
+            $db = new DbOperation();
+            $result = $db->sendAssignment($_POST['pdf'], $_POST['a_id'], $_POST['t_id'], $_POST['s_id']);
+
+            if ($result) {
+
+                $response["error"] = false;
+                $response["message"] = "document uploaded successfully";
+
+            } else {
+                $response["error"] = true;
+                $response["message"] = "document uploading Failed";
+                break;
+
+            }
     }
 
 } else {

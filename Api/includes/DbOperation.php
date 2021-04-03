@@ -137,6 +137,19 @@ class DbOperation
         }
     }
 
+    /*---------------------------------------------------Absent Attendance-----------------------------------------------------*/
+    function absentAttendance($t_id, $dept_id, $c_id, $s_id)
+    {
+        $stmt = "INSERT INTO `attendance` (`st_no`, `t_id`,`attendance`, `dept_id`, `c_id`) VALUES ('$s_id','$t_id','1','$dept_id','$c_id')";
+        $result = $this->con->query($stmt);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*--------------------------------------------------Watch Attendance--------------------------------------------------*/
     function watchAttendance($user_id)
     {
@@ -279,7 +292,7 @@ class DbOperation
     /*===================================================Check Assignment===================================================*/
     public function check_assignment($t_id)
     {
-        echo $stmt = "SELECT assignment.f_id, assignment.f_path, new_assign.na_title, new_assign.na_desciption, student_reg.s_name, student_reg.s_enroll_no FROM `assignment` 
+        $stmt = "SELECT assignment.f_id, assignment.f_path, new_assign.na_title, new_assign.na_desciption, student_reg.s_name, student_reg.s_enroll_no FROM `assignment` 
                  JOIN new_assign ON new_assign.na_id = assignment.a_id JOIN student_reg ON student_reg.s_id = assignment.s_id 
                  WHERE assignment.t_id='$t_id'";
 
@@ -307,7 +320,7 @@ class DbOperation
     /*==============================================View Assignment By Students=======================================*/
     public function view_assignment($dept_id, $c_id)
     {
-         $stmt = "SELECT new_assign.na_id, new_assign.t_id, new_assign.na_title, new_assign.na_desciption, teacher_reg.t_name FROM `new_assign`
+        $stmt = "SELECT new_assign.na_id, new_assign.t_id, new_assign.na_title, new_assign.na_desciption, teacher_reg.t_name FROM `new_assign`
                  JOIN teacher_reg ON teacher_reg.t_id = new_assign.t_id 
                  WHERE new_assign.dept_id='$dept_id' AND new_assign.c_id='$c_id'";
 
@@ -330,6 +343,23 @@ class DbOperation
         return $outer;
 
     }
+
+
+    public function sendAssignment($pdf, $assign_id, $teach_id, $stud_id)
+    {
+        $random = substr(md5(mt_rand()), 0, 7);
+
+        $pdfTitle = $random . ".pdf";
+        $insertion_path = "../uploads/" . $pdfTitle;
+
+        $pdfLocation = "uploads/" . $pdfTitle;
+
+        file_put_contents($insertion_path, base64_decode($pdf));
+
+        $stmt = "INSERT INTO `assignment`( `a_id`, `t_id`, `s_id`, `f_path`) VALUES ('$assign_id','$teach_id','$stud_id','$pdfLocation')";
+        return $this->con->query($stmt);
+    }
+
 
     /*===================================================Events===================================================*/
     public function event()
